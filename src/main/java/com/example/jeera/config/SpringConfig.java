@@ -26,7 +26,9 @@ public class SpringConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/**").authenticated()
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/auth/signup", "/auth/login").permitAll()
+                        .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll())
                 .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
@@ -35,7 +37,7 @@ public class SpringConfig {
 
 
 
-        return null;
+        return http.build();
 
     }
 
@@ -44,8 +46,8 @@ public class SpringConfig {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(List.of("http://locahost:3000"));
-                config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:8080"));
+                config.setAllowedMethods(Collections.singletonList("*"));
                 config.setAllowCredentials(true);
                 config.setExposedHeaders(Collections.singletonList("*"));
                 config.setExposedHeaders(List.of("Authorization"));
