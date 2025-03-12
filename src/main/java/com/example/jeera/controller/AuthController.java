@@ -2,6 +2,7 @@ package com.example.jeera.controller;
 
 import com.example.jeera.entities.User;
 import com.example.jeera.repository.UserRepository;
+import com.example.jeera.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,24 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class AuthController {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final UserDetailsService customUserDetails;
+    private final UserService userService;
 
     @PostMapping("/signup")
     public ResponseEntity<User> registerUser(@RequestBody User user) throws Exception {
-        User existingUser = userRepository.findByEmail(user.getEmail());
-        if (existingUser != null) {
-            throw new Exception("User already exists");
-        } else {
-            User createdUser = new User();
-            createdUser.setPassword(passwordEncoder.encode(user.getPassword()));
-            createdUser.setEmail(user.getEmail());
-            createdUser.setFullName(user.getFullName());
+        User createdUser = userService.registerUser(user);
 
-            User savedUser = userRepository.save(createdUser);
-
-            return ResponseEntity.ok(savedUser);
-        }
+        return ResponseEntity.ok(createdUser);
     }
 }
