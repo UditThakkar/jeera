@@ -3,7 +3,6 @@ package com.example.jeera.service;
 import com.example.jeera.entities.User;
 import com.example.jeera.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
