@@ -1,5 +1,6 @@
 package com.example.jeera.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "boards")
 public class Board {
 
   @Id
@@ -20,5 +22,6 @@ public class Board {
 
   @OneToOne
   @JoinColumn(name = "project_id")
+  @JsonBackReference
   private Project project;
 }
