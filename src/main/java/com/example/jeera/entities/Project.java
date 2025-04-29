@@ -2,6 +2,7 @@ package com.example.jeera.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Project {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +30,4 @@ public class Project {
 
   @ManyToMany
   private List<User> members = new ArrayList<>();
-
-  @OneToOne
-  private Board board;
 }

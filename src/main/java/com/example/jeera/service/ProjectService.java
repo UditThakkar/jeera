@@ -2,11 +2,13 @@ package com.example.jeera.service;
 
 import com.example.jeera.entities.Project;
 import com.example.jeera.entities.User;
+import com.example.jeera.request.CreateProjectRequest;
+import com.example.jeera.response.ProjectCreationResponse;
 
 import java.util.List;
 
 public interface ProjectService {
-  Project createProject(Project project);
+  ProjectCreationResponse createProject(CreateProjectRequest project, String email);
 
   Project getProject(Long id);
 
