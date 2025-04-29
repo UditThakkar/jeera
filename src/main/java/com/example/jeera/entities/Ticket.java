@@ -12,6 +12,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "tickets")
 public class Ticket {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
