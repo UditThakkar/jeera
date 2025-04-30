@@ -1,7 +1,7 @@
 package com.example.jeera.service;
 
 import com.example.jeera.config.JwtProvider;
-import com.example.jeera.response.AuthResponse;
+import com.example.jeera.dto.response.AuthResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
