@@ -1,4 +1,4 @@
-package com.example.jeera.request;
+package com.example.jeera.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

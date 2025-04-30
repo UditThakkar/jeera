@@ -1,8 +1,8 @@
 package com.example.jeera.controller;
 
 import com.example.jeera.entities.User;
-import com.example.jeera.response.AuthResponse;
-import com.example.jeera.request.LoginRequest;
+import com.example.jeera.dto.response.AuthResponse;
+import com.example.jeera.dto.request.LoginRequest;
 import com.example.jeera.service.AuthService;
 import com.example.jeera.service.UserService;
 import lombok.AllArgsConstructor;

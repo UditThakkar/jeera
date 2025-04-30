@@ -5,10 +5,11 @@ import com.example.jeera.entities.Project;
 import com.example.jeera.entities.User;
 import com.example.jeera.repository.ProjectRepository;
 import com.example.jeera.repository.UserRepository;
-import com.example.jeera.request.CreateProjectRequest;
-import com.example.jeera.response.ProjectCreationResponse;
+import com.example.jeera.dto.request.CreateProjectRequest;
+import com.example.jeera.dto.response.ProjectCreationResponse;
+import com.example.jeera.dto.response.ProjectResponseDto;
+import com.example.jeera.utils.SlugGenerator;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,22 +27,23 @@ public class ProjectServiceImpl implements ProjectService{
     Project newProject = Project.builder()
         .name(project.getName())
         .description(project.getDescription())
-            .category(project.getCategory())
-            .tags(project.getTags())
-            .owner(userRepository.findByEmail(email))
+        .category(project.getCategory())
+        .tags(project.getTags())
+        .owner(userRepository.findByEmail(email))
+        .slug(SlugGenerator.generateSlug(project.getName()))
         .build();
     projectRepository.save(newProject);
     Board board = boardService.createBoardFromProject(newProject);
 
     return ProjectCreationResponse.builder()
         .data(ProjectCreationResponse.Data.builder()
-            .project(ProjectCreationResponse.ProjectDto.builder()
+            .project(ProjectResponseDto.builder()
                 .id(newProject.getId())
                 .name(newProject.getName())
                 .description(newProject.getDescription())
                 .category(newProject.getCategory())
                 .tags(String.join(", ", newProject.getTags()))
-                .owner(ProjectCreationResponse.Owner.builder()
+                .owner(ProjectResponseDto.Owner.builder()
                     .id(newProject.getOwner().getId())
                     .build())
                 .build())
@@ -68,5 +70,23 @@ public class ProjectServiceImpl implements ProjectService{
   @Override
   public void deleteProject(Long id) {
 
+  }
+
+  @Override
+  public List<ProjectResponseDto> getProjects(String email) {
+    User user = userRepository.findByEmail(email);
+    List<Project> projects = projectRepository.findAllByOwner(user);
+    return projects.stream()
+        .map(project -> ProjectResponseDto.builder()
+            .id(project.getId())
+            .name(project.getName())
+            .description(project.getDescription())
+            .category(project.getCategory())
+            .tags(String.join(", ", project.getTags()))
+            .owner(ProjectResponseDto.Owner.builder()
+                .id(project.getOwner().getId())
+                .build())
+            .build())
+        .toList();
   }
 }

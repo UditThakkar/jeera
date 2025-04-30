@@ -1,4 +1,4 @@
-package com.example.jeera.response;
+package com.example.jeera.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
